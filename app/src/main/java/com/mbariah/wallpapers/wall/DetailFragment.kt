@@ -30,7 +30,6 @@ class DetailFragment : Fragment() {
 
         Picasso.get()
             .load(photo?.src?.original)
-            .centerCrop()
             .placeholder(R.drawable.loading_animation)
             .error(R.drawable.ic_broken_image)
             .into(binding.img)

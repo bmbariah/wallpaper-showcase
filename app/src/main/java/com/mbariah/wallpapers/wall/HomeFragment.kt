@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
@@ -47,14 +48,16 @@ class HomeFragment : Fragment() {
         //2 - VERTICAL COLUMNS
         val layoutManager = StaggeredGridLayoutManager(columns, StaggeredGridLayoutManager.VERTICAL)
         layoutManager.gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
-        binding.recycler.setHasFixedSize(true)
         binding.recycler.layoutManager = layoutManager
-
 
         //Listener of recycler view click
         binding.recycler.adapter = ImagesAdapter(ImagesAdapter.ClickListener {
             //notice lambda
             moveToNext(it)
+        })
+
+        viewModel.isLoading.observe(viewLifecycleOwner, Observer<Boolean> {
+            binding.isLoading = it
         })
 
         binding.lifecycleOwner = viewLifecycleOwner
@@ -72,12 +75,13 @@ class HomeFragment : Fragment() {
                 if (query != null) {
                     if (query.isNotEmpty()) {
                         viewModel.searchList("1", "10", query)
-                    }else if (query == ""){
+                    } else if (query == "") {
                         viewModel.searchEmptyList("1", "10")
                     }
                 }
                 return false
             }
+
             override fun onQueryTextChange(newText: String?): Boolean {
                 if (newText.equals("")) {
                     this.onQueryTextSubmit("")

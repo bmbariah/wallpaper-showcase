@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mbariah.wallpapers.network.ImagesAPI
 import com.mbariah.wallpapers.models.Photo
+import com.mbariah.wallpapers.utils.Logger
 import kotlinx.coroutines.launch
 import retrofit2.await
 import javax.inject.Inject
@@ -20,35 +21,36 @@ class HomeViewModel : ViewModel {
     constructor(api: ImagesAPI) : super() {
         this.api = api
         this._imagesList = MutableLiveData<List<Photo>>()
-        this.errorListener = View.OnClickListener { this.getList() }
-        getList()
+        this._isLoading = MutableLiveData<Boolean>(false)
+        this._hasNetworkError = MutableLiveData<Boolean>(false)
+        this.errorListener = View.OnClickListener { this.searchEmptyList() }
+        searchEmptyList()
     }
 
-    private var _imagesList: MutableLiveData<List<Photo>>
-
     //LiveData Object
+    private var _imagesList: MutableLiveData<List<Photo>>
     val imagesList: LiveData<List<Photo>> get() = _imagesList
+
+    private var _isLoading: MutableLiveData<Boolean>
+    val isLoading: LiveData<Boolean> get() = _isLoading
+
+    private var _hasNetworkError: MutableLiveData<Boolean>
+    val hasNetworkError: LiveData<Boolean> get() = _hasNetworkError
 
     val errorListener: View.OnClickListener
 
-    private fun getList() {
+    fun searchEmptyList(page: String = "1", limit: String = "15") {
         viewModelScope.launch {
             try {
-                val results = api.getImages("1", "15").await()
-                _imagesList.value = results.photos
-            } catch (e: Exception) {
-            }
-        }
-    }
-
-
-    fun searchEmptyList(page: String, limit: String) {
-        viewModelScope.launch {
-            try {
+                _isLoading.value = true
                 _imagesList.postValue(null)
                 val results = api.getImages(page, limit).await()
                 _imagesList.value = results.photos
+                Logger.dt(results.photos?.size.toString())
+                _isLoading.value = false
             } catch (e: Exception) {
+                _isLoading.value = false
+                _hasNetworkError.value = true
             }
         }
     }
@@ -56,10 +58,14 @@ class HomeViewModel : ViewModel {
     fun searchList(page: String, limit: String, search: String) {
         viewModelScope.launch {
             try {
+                _isLoading.value = true
                 _imagesList.postValue(null)
                 val results = api.searchImages(page, limit, search).await()
                 _imagesList.value = results.photos
+                _isLoading.value = false
             } catch (e: Exception) {
+                _isLoading.value = false
+                _hasNetworkError.value = true
             }
         }
     }
