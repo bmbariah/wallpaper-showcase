@@ -60,6 +60,10 @@ class HomeFragment : Fragment() {
             binding.isLoading = it
         })
 
+        viewModel.hasNetworkError.observe(viewLifecycleOwner, Observer<Boolean> {
+            binding.hasError = it
+        })
+
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
 

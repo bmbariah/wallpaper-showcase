@@ -45,10 +45,10 @@ class HomeViewModel : ViewModel {
                 _isLoading.value = true
                 _imagesList.postValue(null)
                 val results = api.getImages(page, limit).await()
-                _imagesList.value = results.photos
-                Logger.dt(results.photos?.size.toString())
+                _imagesList.value = results.data
                 _isLoading.value = false
             } catch (e: Exception) {
+                Logger.dt(e.toString())
                 _isLoading.value = false
                 _hasNetworkError.value = true
             }
@@ -61,9 +61,10 @@ class HomeViewModel : ViewModel {
                 _isLoading.value = true
                 _imagesList.postValue(null)
                 val results = api.searchImages(page, limit, search).await()
-                _imagesList.value = results.photos
+                _imagesList.value = results.data
                 _isLoading.value = false
             } catch (e: Exception) {
+                Logger.dt(e.toString())
                 _isLoading.value = false
                 _hasNetworkError.value = true
             }

@@ -29,7 +29,7 @@ class DetailFragment : Fragment() {
         val photo = safeArgs.photoItem
 
         Picasso.get()
-            .load(photo?.src?.original)
+            .load(photo?.thumbs?.original)
             .placeholder(R.drawable.loading_animation)
             .error(R.drawable.ic_broken_image)
             .into(binding.img)

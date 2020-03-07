@@ -11,6 +11,10 @@
         <variable
             name="isLoading"
             type="boolean" />
+
+        <variable
+            name="hasError"
+            type="boolean" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -54,7 +58,7 @@
             tools:listitem="@layout/item" />
 
         <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/animation_view"
+            android:id="@+id/loading_view"
             android:layout_width="100dp"
             android:layout_height="100dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -66,6 +70,20 @@
             app:lottie_loop="true"
             app:lottie_rawRes="@raw/white_loader"
             app:visibleGone="@{isLoading}" />
+
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/network_error_view"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/recycler"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="false"
+            app:lottie_rawRes="@raw/no_internet"
+            app:visibleGone="@{hasError}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

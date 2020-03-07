@@ -7,17 +7,17 @@ import retrofit2.http.Query
 
 interface ImageService {
 
-    @GET("/v1/curated")
+    @GET("search")
     fun getImages(
         @Query("page") page: String = "1",
         @Query("per_page") perPage: String
     ): Call<Results>
 
-    @GET("/v1/search")
+    @GET("search")
     fun searchImages(
         @Query("page") page: String = "1",
         @Query("per_page") perPage: String,
-        @Query("query") query: String
+        @Query("q") query: String
         ): Call<Results>
 
 
