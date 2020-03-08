@@ -7,16 +7,38 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mbariah.wallpapers.R
 import com.mbariah.wallpapers.models.Photo
 import com.mbariah.wallpapers.wall.ImagesAdapter
+import com.squareup.moshi.JsonAdapter
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.Types
 import com.squareup.picasso.Picasso
+import java.lang.reflect.Type
 
 //Binding adapter used to display images from URL using Glide
 @BindingAdapter("imageUrl")
 fun bindImage(imageView: ImageView, imgUrl: String?) {
-    Picasso.get()
-        .load(imgUrl)
-        .placeholder(R.drawable.loading_animation)
-        .error(R.drawable.ic_broken_image)
-        .into(imageView)
+
+    /*
+        val moshi = Moshi.Builder().build()
+        val jsonAdapter: JsonAdapter<Photo> = moshi.adapter<Photo>(Photo::class.java)
+        val response: String? = jsonAdapter.toJson(imgUrl)
+        print(response)
+    */
+
+    if (imgUrl != null) {
+        Picasso.get()
+            .load(imgUrl)
+            .placeholder(R.drawable.loading_animation)
+            .error(R.drawable.ic_broken_image)
+            .into(imageView)
+    }else{
+        Picasso.get()
+            .load(R.drawable.ic_broken_image)
+            .placeholder(R.drawable.loading_animation)
+            .fit().centerCrop()
+            .error(R.drawable.ic_broken_image)
+            .into(imageView)
+    }
+
 }
 
 @BindingAdapter("visibleGone")

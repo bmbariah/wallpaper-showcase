@@ -5,12 +5,15 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mbariah.wallpapers.network.ImagesAPI
 import com.mbariah.wallpapers.models.Photo
+import com.mbariah.wallpapers.network.ImagesAPI
 import com.mbariah.wallpapers.utils.Logger
+import com.squareup.moshi.JsonAdapter
+import com.squareup.moshi.Moshi
 import kotlinx.coroutines.launch
 import retrofit2.await
 import javax.inject.Inject
+
 
 class HomeViewModel : ViewModel {
 
@@ -23,8 +26,8 @@ class HomeViewModel : ViewModel {
         this._imagesList = MutableLiveData<List<Photo>>()
         this._isLoading = MutableLiveData<Boolean>(false)
         this._hasNetworkError = MutableLiveData<Boolean>(false)
-        this.errorListener = View.OnClickListener { this.searchEmptyList() }
-        searchEmptyList()
+        this.errorListener = View.OnClickListener { this.searchEmptyList("1", "10") }
+        searchEmptyList("1", "10")
     }
 
     //LiveData Object
@@ -39,13 +42,13 @@ class HomeViewModel : ViewModel {
 
     val errorListener: View.OnClickListener
 
-    fun searchEmptyList(page: String = "1", limit: String = "15") {
+    fun searchEmptyList(page: String, limit: String) {
         viewModelScope.launch {
             try {
                 _isLoading.value = true
                 _imagesList.postValue(null)
                 val results = api.getImages(page, limit).await()
-                _imagesList.value = results.data
+                _imagesList.value = results.photos?.photo
                 _isLoading.value = false
             } catch (e: Exception) {
                 Logger.dt(e.toString())
@@ -61,7 +64,7 @@ class HomeViewModel : ViewModel {
                 _isLoading.value = true
                 _imagesList.postValue(null)
                 val results = api.searchImages(page, limit, search).await()
-                _imagesList.value = results.data
+                _imagesList.value = results.photos?.photo
                 _isLoading.value = false
             } catch (e: Exception) {
                 Logger.dt(e.toString())

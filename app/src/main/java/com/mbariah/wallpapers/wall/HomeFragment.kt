@@ -4,21 +4,26 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.mbariah.wallpapers.App
+import com.mbariah.wallpapers.R
 import com.mbariah.wallpapers.ViewModelFactory
 import com.mbariah.wallpapers.databinding.HomeFragmentBinding
 import com.mbariah.wallpapers.models.Photo
 import com.mbariah.wallpapers.utils.Logger
+import com.mbariah.wallpapers.utils.showHide
+import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
 
-class HomeFragment : Fragment() {
+class HomeFragment : BaseFragment() {
 
     // You want Dagger to provide an instance of ViewModelFactory with all it's subDependencies from the graph
     @Inject
@@ -42,8 +47,7 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //Toolbar Title
-        binding.toolbar.title = "WallPapers X"
+        setTitle("Wallpapers X")
 
         //2 - VERTICAL COLUMNS
         val layoutManager = StaggeredGridLayoutManager(columns, StaggeredGridLayoutManager.VERTICAL)
@@ -94,6 +98,12 @@ class HomeFragment : Fragment() {
             }
         })
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        //Unhide toolbar when coming back
+        hideToolbar(false)
     }
 
     private fun moveToNext(photo: Photo) {

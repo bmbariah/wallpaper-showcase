@@ -15,7 +15,7 @@ class RestAPI @Inject constructor(imagesService: ImageService) : ImagesAPI {
     }
 
     override suspend fun searchImages(page: String, limit: String, search: String): Call<Results> {
-        return api.searchImages(page, limit, search);
+        return api.searchImages(page, limit, search)
     }
 
 }

@@ -8,8 +8,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mbariah.wallpapers.databinding.ItemBinding
 import com.mbariah.wallpapers.models.Photo
 
-class ImagesAdapter(private val onClickListener: ClickListener) :
-    ListAdapter<Photo, ImagesAdapter.ImagesViewHolder>(DiffCallback()) {
+class ImagesAdapter :
+    ListAdapter<Photo, ImagesAdapter.ImagesViewHolder> {
+
+    private val onClickListener: ClickListener
+
+    constructor(onClickListener: ClickListener) : super(DiffCallback()) {
+        this.onClickListener = onClickListener
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImagesViewHolder {
         return ImagesViewHolder(
