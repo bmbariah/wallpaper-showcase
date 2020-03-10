@@ -14,10 +14,10 @@
 
         <ImageView
             android:id="@+id/buddyico"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:contentDescription="@string/content_description"
-            android:padding="5.0dp"
+            android:padding="3.0dp"
             tools:src="@drawable/buddyicon" />
 
         <LinearLayout
@@ -30,15 +30,18 @@
                 android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/lightDark"
+                android:textColor="@color/white"
                 android:textSize="18sp"
                 android:textStyle="normal"
+                android:maxLines="1"
+                android:maxLength="25"
                 tools:text="This is a test desc" />
 
             <TextView
                 android:id="@+id/author"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/white"
                 android:alpha="0.8"
                 android:textSize="15sp"
                 tools:text="Mbariah" />

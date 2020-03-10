@@ -1,5 +1,6 @@
 package com.mbariah.wallpapers.wall
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -104,6 +105,9 @@ class HomeFragment : BaseFragment() {
         super.onResume()
         //Unhide toolbar when coming back
         hideToolbar(false)
+
+        activity?.window?.decorView?.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        activity?.window?.statusBarColor = Color.WHITE
     }
 
     private fun moveToNext(photo: Photo) {

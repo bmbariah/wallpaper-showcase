@@ -11,9 +11,9 @@ interface ImageService {
     fun getImages(
         @Query("page") page: String = "1",
         @Query("per_page") perPage: String,
-        @Query("method") method: String = "flickr.photos.search",
+        @Query("method") method: String = "flickr.groups.pools.getPhotos",
         //@Query("text") query: String = "android wallpapers"
-        @Query("tags") tags: String = "4k wallpapers,hd wallpapers, 4k"
+        @Query("group_id") tags: String = "14609814@N24"
     ): Call<Results>
 
     @GET("rest")
