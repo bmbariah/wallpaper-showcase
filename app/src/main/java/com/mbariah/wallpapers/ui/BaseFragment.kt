@@ -1,4 +1,4 @@
-package com.mbariah.wallpapers.wall
+package com.mbariah.wallpapers.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment

@@ -3,8 +3,7 @@ package com.mbariah.wallpapers.dagger.component
 
 import com.mbariah.wallpapers.dagger.modules.ImagesModule
 import com.mbariah.wallpapers.dagger.modules.NetworkModule
-import com.mbariah.wallpapers.network.ImageService
-import com.mbariah.wallpapers.wall.HomeFragment
+import com.mbariah.wallpapers.ui.HomeFragment
 import dagger.Component
 import javax.inject.Singleton
 

@@ -6,12 +6,8 @@ import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.mbariah.wallpapers.R
 import com.mbariah.wallpapers.models.Photo
-import com.mbariah.wallpapers.wall.ImagesAdapter
-import com.squareup.moshi.JsonAdapter
-import com.squareup.moshi.Moshi
-import com.squareup.moshi.Types
+import com.mbariah.wallpapers.ui.ImagesAdapter
 import com.squareup.picasso.Picasso
-import java.lang.reflect.Type
 
 //Binding adapter used to display images from URL using Glide
 @BindingAdapter("imageUrl")
