@@ -13,40 +13,48 @@ import retrofit2.await
 import javax.inject.Inject
 
 
-class HomeViewModel : ViewModel {
-
-    private val api: ImagesAPI
+class HomeViewModel @Inject constructor(private val api: ImagesAPI) : ViewModel() {
 
     //@Inject - Tells Dagger how to create instances of HomeViewModel
-    @Inject
-    constructor(api: ImagesAPI) : super() {
-        this.api = api
-        this._imagesList = MutableLiveData<List<Photo>>()
-        this._isLoading = MutableLiveData<Boolean>(false)
-        this._hasNetworkError = MutableLiveData<Boolean>(false)
-        this.errorListener = View.OnClickListener { this.searchEmptyList("1", "10") }
-        searchEmptyList("1", "10")
-    }
 
     //LiveData Object
-    private var _imagesList: MutableLiveData<List<Photo>>
-    val imagesList: LiveData<List<Photo>> get() = _imagesList
+    private var _imagesList: MutableLiveData<MutableList<Photo>> = MutableLiveData()
+    val imagesList: LiveData<MutableList<Photo>> get() = _imagesList
 
-    private var _isLoading: MutableLiveData<Boolean>
+    private var _isLoading: MutableLiveData<Boolean> = MutableLiveData<Boolean>(false)
     val isLoading: LiveData<Boolean> get() = _isLoading
 
-    private var _hasNetworkError: MutableLiveData<Boolean>
+    private var _hasNetworkError: MutableLiveData<Boolean> = MutableLiveData<Boolean>(false)
     val hasNetworkError: LiveData<Boolean> get() = _hasNetworkError
 
-    val errorListener: View.OnClickListener
+    private val errorListener: View.OnClickListener
 
-    fun searchEmptyList(page: String, limit: String) {
+    private var page: Int = 1
+
+
+    init {
+        this.errorListener = View.OnClickListener { this.searchEmptyList(limit = "10") }
+        searchEmptyList(limit = "10")
+    }
+
+    fun searchEmptyList(limit: String) {
         viewModelScope.launch {
             try {
                 _isLoading.value = true
-                _imagesList.postValue(null)
-                val results = api.getImages(page, limit).await()
-                _imagesList.value = results.photos?.photo
+                val results = api.getImages(page.toString(), limit).await()
+                Logger.dt("Fetched from page $page")
+
+                page = results.photos?.page?.plus(1) ?: 1
+
+                //TODO() Find a better way to do this
+                if (_imagesList.value == null) {
+                    //"New Batch"
+                    _imagesList.value = results.photos?.photo?.toMutableList()
+                } else {
+                    //Append to existing
+                    results.photos?.photo?.let { _imagesList.value!!.addAll(it) }
+                }
+
                 _isLoading.value = false
             } catch (e: Exception) {
                 Logger.dt(e.toString())
@@ -55,14 +63,14 @@ class HomeViewModel : ViewModel {
             }
         }
     }
+
 
     fun searchList(page: String, limit: String, search: String) {
         viewModelScope.launch {
             try {
                 _isLoading.value = true
-                _imagesList.postValue(null)
                 val results = api.searchImages(page, limit, search).await()
-                _imagesList.value = results.photos?.photo
+                //_imagesList.value = results.photos?.photo
                 _isLoading.value = false
             } catch (e: Exception) {
                 Logger.dt(e.toString())
@@ -72,5 +80,13 @@ class HomeViewModel : ViewModel {
         }
     }
 
-
 }
+
+
+/*
+operator fun <T> MutableLiveData<List<T>>.plusAssign(values: List<T>) {
+    val value = this.value ?: arrayListOf()
+    value.addAll(values)
+    value
+    this.value = value
+}*/

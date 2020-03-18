@@ -46,13 +46,16 @@ class HomeFragment : BaseFragment() {
         setTitle("Wallpapers X")
 
         //2 - VERTICAL COLUMNS
-        val recyclerlayoutManager = StaggeredGridLayoutManager(columns, StaggeredGridLayoutManager.VERTICAL)
-        recyclerlayoutManager.gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
+        val recyclerlayoutManager =
+            StaggeredGridLayoutManager(columns, StaggeredGridLayoutManager.VERTICAL)
+        recyclerlayoutManager.gapStrategy =
+            StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
         binding.recycler.apply {
             layoutManager = recyclerlayoutManager
-            addOnScrollListener(InfiniteScrollListener({ viewModel.searchEmptyList("2", "10") }, recyclerlayoutManager))
+            addOnScrollListener(
+                InfiniteScrollListener({ viewModel.searchEmptyList(limit = "10") }, recyclerlayoutManager)
+            )
         }
-
 
         //Listener of recycler view click
         binding.recycler.adapter = ImagesAdapter(ImagesAdapter.ClickListener {
@@ -84,7 +87,7 @@ class HomeFragment : BaseFragment() {
                     if (query.isNotEmpty()) {
                         viewModel.searchList("1", "10", query)
                     } else if (query == "") {
-                        viewModel.searchEmptyList("1", "10")
+                        viewModel.searchEmptyList(limit = "10")
                     }
                 }
                 return false

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
@@ -24,3 +25,7 @@ inline fun <reified T : ViewModel> Fragment.getViewModel(viewModelFactory: ViewM
 
 //Generic Extended Class with a high order function as argument
 fun<T> androidLazy(highOrderfn: () -> T) = lazy(LazyThreadSafetyMode.NONE, highOrderfn)
+
+
+//Append new data into your existing MutableLiveData
+//operator
