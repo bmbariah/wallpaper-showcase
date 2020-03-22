@@ -72,49 +72,44 @@ class DetailFragment : BaseFragment() {
         //force center crop
         img.scaleType = ImageView.ScaleType.CENTER_CROP
 
-        fetchPalette()
+        //fetchPalette()
     }
 
     private fun fetchPalette() {
 
-        Palette.from(img.drawable.toBitmap()).generate { palette ->
+        img?.drawable?.toBitmap()?.let {
+            Palette.from(it).generate { palette ->
 
-            val vibrantSwatch: Palette.Swatch? = palette?.vibrantSwatch
-            val darkVibrantSwatch: Palette.Swatch? = palette?.darkVibrantSwatch
-            val lightVibrantSwatch: Palette.Swatch? = palette?.lightVibrantSwatch
-            val mutedSwatch: Palette.Swatch? = palette?.mutedSwatch
-            val darkMutedSwatch: Palette.Swatch? = palette?.darkMutedSwatch
-            val lightMutedSwatch: Palette.Swatch? = palette?.lightMutedSwatch
+                //val vibrantSwatch: Palette.Swatch? = palette?.vibrantSwatch
+                //val darkVibrantSwatch: Palette.Swatch? = palette?.darkVibrantSwatch
+                val lightVibrantSwatch: Palette.Swatch? = palette?.lightVibrantSwatch
+                //val mutedSwatch: Palette.Swatch? = palette?.mutedSwatch
+                //val darkMutedSwatch: Palette.Swatch? = palette?.darkMutedSwatch
+                val lightMutedSwatch: Palette.Swatch? = palette?.lightMutedSwatch
 
-            //Apply palette to background
-            lightMutedSwatch?.rgb?.let { image_bg.setBackgroundColor(it) }
+                //Apply palette to background
+                lightMutedSwatch?.rgb?.let { image_bg.setBackgroundColor(it) }
 
-            //Apply palette to back button
-            val vectorDrawable: Drawable? = VectorDrawableCompat.create(
-                resources,
-                R.drawable.ic_arrow_back_24dp,
-                null
-            )
-            val drawable = DrawableCompat.wrap(vectorDrawable!!)
-            lightVibrantSwatch?.rgb?.let { DrawableCompat.setTint(drawable.mutate(), it) }
-            back.setImageDrawable(drawable)
+                //Apply palette to back button
+                val vectorDrawable: Drawable? = VectorDrawableCompat.create(
+                    resources,
+                    R.drawable.ic_arrow_back_24dp,
+                    null
+                )
+                val drawable = DrawableCompat.wrap(vectorDrawable!!)
+                lightVibrantSwatch?.rgb?.let { DrawableCompat.setTint(drawable.mutate(), it) }
+                back.setImageDrawable(drawable)
 
-            //Apply to statusbar
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                activity?.window?.decorView?.systemUiVisibility =
-                    View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-                lightMutedSwatch?.rgb?.let { activity?.window?.statusBarColor = it }
+                //Apply to bottomSheet
+                //lightMutedSwatch?.rgb?.let { bottom_sheet.setBackgroundColor(it)}
+
+                /* darkMutedSwatch?.rgb?.let {
+                         DrawableCompat.setTint(
+                             back.drawable,
+                             ContextCompat.getColor(  App.appContext, it)
+                         )
+                     }*/
             }
-
-            //Apply to bottomSheet
-            //lightMutedSwatch?.rgb?.let { bottom_sheet.setBackgroundColor(it)}
-
-            /* darkMutedSwatch?.rgb?.let {
-                 DrawableCompat.setTint(
-                     back.drawable,
-                     ContextCompat.getColor(  App.appContext, it)
-                 )
-             }*/
         }
     }
 }

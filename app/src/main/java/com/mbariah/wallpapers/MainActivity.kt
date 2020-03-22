@@ -16,6 +16,6 @@ class MainActivity : AppCompatActivity() {
         //Light or Dark Mode
         //Function for Light-Dark theme
         ///Add feature to ensure users are able to manually override this
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
     }
 }

@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="viewModel"
             type="com.mbariah.wallpapers.ui.HomeViewModel" />
@@ -21,7 +20,6 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/white"
         tools:context="com.mbariah.wallpapers.MainActivity">
 
         <androidx.appcompat.widget.SearchView

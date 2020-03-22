@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#002022</color>
+    <color name="colorPrimaryDark">#001719</color>
+    <color name="colorAccent">#FF04484E</color>
+
+    <color name="statusBarColor">#001719</color>
+    <color name="windowBackground">#002022</color>
+
+    <color name="toolbarTextColor">@android:color/darker_gray</color>
+    <color name="toolbarMenuColor">@android:color/black</color>
+
+    <color name="textColor">@android:color/darker_gray</color>
+
+    <color name="popupBackgroundColor">@color/colorPrimary</color>
+
+    <color name="transparent">#00000000</color>
+
+</resources>
