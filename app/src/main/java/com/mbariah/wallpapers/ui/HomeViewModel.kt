@@ -6,14 +6,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mbariah.wallpapers.models.Photo
-import com.mbariah.wallpapers.network.ImagesAPI
+import com.mbariah.wallpapers.network.ImagesSource
 import com.mbariah.wallpapers.utils.Logger
 import kotlinx.coroutines.launch
-import retrofit2.await
 import javax.inject.Inject
 
 
-class HomeViewModel @Inject constructor(private val api: ImagesAPI) : ViewModel() {
+class HomeViewModel @Inject constructor(private val imagesSource: ImagesSource) : ViewModel() {
 
     //@Inject - Tells Dagger how to create instances of HomeViewModel
 
@@ -31,7 +30,6 @@ class HomeViewModel @Inject constructor(private val api: ImagesAPI) : ViewModel(
 
     private var page: Int = 1
 
-
     init {
         this.errorListener = View.OnClickListener { this.searchEmptyList(limit = "10") }
         searchEmptyList(limit = "10")
@@ -41,7 +39,7 @@ class HomeViewModel @Inject constructor(private val api: ImagesAPI) : ViewModel(
         viewModelScope.launch {
             try {
                 _isLoading.value = true
-                val results = api.getImages(page.toString(), limit).await()
+                val results = imagesSource.getImages(page.toString(), limit)
                 Logger.dt("Fetched from page $page")
 
                 page = results.photos?.page?.plus(1) ?: 1
@@ -69,7 +67,7 @@ class HomeViewModel @Inject constructor(private val api: ImagesAPI) : ViewModel(
         viewModelScope.launch {
             try {
                 _isLoading.value = true
-                val results = api.searchImages(page, limit, search).await()
+                val results = imagesSource.searchImages(page, limit, search)
                 //_imagesList.value = results.photos?.photo
                 _isLoading.value = false
             } catch (e: Exception) {
@@ -81,12 +79,3 @@ class HomeViewModel @Inject constructor(private val api: ImagesAPI) : ViewModel(
     }
 
 }
-
-
-/*
-operator fun <T> MutableLiveData<List<T>>.plusAssign(values: List<T>) {
-    val value = this.value ?: arrayListOf()
-    value.addAll(values)
-    value
-    this.value = value
-}*/

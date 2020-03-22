@@ -7,6 +7,7 @@ import com.mbariah.wallpapers.dagger.component.DaggerAppComponent
 import com.mbariah.wallpapers.dagger.modules.NetworkModule
 
 class App : Application(){
+
     //app init
     companion object{
 
@@ -16,8 +17,6 @@ class App : Application(){
 
     }
     //dagger declaration
-
-
     override fun onCreate() {
         super.onCreate()
         appContext = applicationContext
