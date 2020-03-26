@@ -1,8 +1,8 @@
 package com.mbariah.wallpapers.ui
 
 import android.graphics.drawable.Drawable
-import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,8 +13,9 @@ import androidx.navigation.fragment.navArgs
 import androidx.palette.graphics.Palette
 import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
 import com.mbariah.wallpapers.R
-import com.mbariah.wallpapers.utils.Logger
+import com.mbariah.wallpapers.utils.Utils
 import com.squareup.picasso.Callback
+import com.squareup.picasso.NetworkPolicy
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.detail_fragment.*
 import kotlinx.android.synthetic.main.image_bar.*
@@ -43,10 +44,8 @@ class DetailFragment : BaseFragment() {
         title.text = photo?.title
         author.text = photo?.ownername
 
-        val buddyIcon =
-            "https://farm${photo?.iconfarm}.staticflickr.com/${photo?.iconserver}/buddyicons/${photo?.owner}.jpg"
+        val buddyIcon = "https://farm${photo?.iconfarm}.staticflickr.com/${photo?.iconserver}/buddyicons/${photo?.owner}.jpg"
 
-        Logger.dt(buddyIcon)
         Picasso.get()
             .load(buddyIcon)
             .placeholder(R.drawable.buddyicon)
@@ -57,11 +56,16 @@ class DetailFragment : BaseFragment() {
             .load(photo?.urlL) // thumbnail url goes here
             .into(img, object : Callback {
                 override fun onSuccess() {
-                    Picasso.get()
-                        .load(photo?.urlO)
-                        .placeholder(img.drawable)
-                        .error(R.drawable.ic_broken_image)
-                        .into(img)
+                    Log.w("Picasso", "Inner Image loaded from cache")
+
+                    photo?.urlO?.let {
+                        Picasso.get()
+                            .load(it)
+                            .placeholder(img.drawable)
+                            .error(img.drawable)
+                            .into(img)
+                    }
+
                 }
 
                 override fun onError(e: Exception?) {}

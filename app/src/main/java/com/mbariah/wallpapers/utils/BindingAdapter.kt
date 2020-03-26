@@ -21,21 +21,14 @@ fun bindImage(imageView: ImageView, imgUrl: String?) {
     */
 
     if (imgUrl != null) {
-        Picasso.get()
-            .load(imgUrl)
-            .placeholder(R.drawable.loading_animation)
-            .error(R.drawable.ic_broken_image)
-            .into(imageView)
+        Utils.loadWithPicasso(imageView, imgUrl)
     }else{
-        Picasso.get()
-            .load(R.drawable.ic_broken_image)
-            .placeholder(R.drawable.loading_animation)
-            .fit().centerCrop()
-            .error(R.drawable.ic_broken_image)
-            .into(imageView)
+        return
     }
 
 }
+
+
 
 @BindingAdapter("visibleGone")
 fun showHide(view: View, show: Boolean) {

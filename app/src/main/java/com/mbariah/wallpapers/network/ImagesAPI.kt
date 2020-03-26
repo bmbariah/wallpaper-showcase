@@ -13,7 +13,9 @@ interface ImagesAPI {
         @Query("per_page") perPage: String,
         @Query("method") method: String = "flickr.groups.pools.getPhotos",
         //@Query("text") query: String = "android wallpapers"
-        @Query("group_id") tags: String = "14609814@N24"
+        //@Query("group_id") tags: String = "14609814@N24"
+        @Query("group_id") tags: String = "3411915@N22"
+
     ): Results
 
     @GET("rest")
