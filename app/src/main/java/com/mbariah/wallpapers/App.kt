@@ -1,10 +1,14 @@
 package com.mbariah.wallpapers
 
+import android.app.ActivityManager
 import android.app.Application
 import android.content.Context
+import android.util.Log
 import com.mbariah.wallpapers.dagger.component.AppComponent
 import com.mbariah.wallpapers.dagger.component.DaggerAppComponent
 import com.mbariah.wallpapers.dagger.modules.NetworkModule
+import com.squareup.picasso.LruCache
+import com.squareup.picasso.Picasso
 
 class App : Application(){
 
@@ -24,5 +28,26 @@ class App : Application(){
             .builder()
             .networkModule(NetworkModule())
             .build()
+
+
+       /* val requestTransformer = Picasso.RequestTransformer { request ->
+            Log.d("image request", request.toString())
+            request
+        }*/
+
+        val builder = Picasso.Builder(this)
+            .memoryCache(LruCache(getBytesForMemCache(20)))
+            //.requestTransformer(requestTransformer)
+
+        //One Picasso instance to share app lifecycle
+        Picasso.setSingletonInstance(builder.build())
+    }
+
+    private fun getBytesForMemCache(percent: Int): Int {
+        val mi = ActivityManager.MemoryInfo()
+        val activityManager = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        activityManager.getMemoryInfo(mi)
+        val availableMemory = mi.availMem.toDouble()
+        return (percent * availableMemory / 100).toInt()
     }
 }

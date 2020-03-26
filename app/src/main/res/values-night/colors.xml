@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#002022</color>
-    <color name="colorPrimaryDark">#001719</color>
-    <color name="colorAccent">#FF04484E</color>
+    <color name="colorPrimary">#031145</color>
+    <color name="colorPrimaryDark">#030D30</color>
+    <color name="colorAccent">#18275C</color>
 
-    <color name="statusBarColor">#001719</color>
-    <color name="windowBackground">#002022</color>
+    <color name="statusBarColor">@color/colorPrimaryDark</color>
+    <color name="windowBackground">@color/colorPrimary</color>
 
     <color name="toolbarTextColor">@android:color/darker_gray</color>
     <color name="toolbarMenuColor">@android:color/black</color>
@@ -15,5 +15,7 @@
     <color name="popupBackgroundColor">@color/colorPrimary</color>
 
     <color name="transparent">#00000000</color>
+
+    <color name="loaderColor">@android:color/white</color>
 
 </resources>

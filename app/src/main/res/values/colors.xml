@@ -16,4 +16,6 @@
 
     <color name="transparent">#00000000</color>
 
+    <color name="loaderColor">@android:color/black</color>
+
 </resources>

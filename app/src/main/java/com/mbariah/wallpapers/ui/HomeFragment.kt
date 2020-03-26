@@ -1,7 +1,8 @@
 package com.mbariah.wallpapers.ui
 
-import android.graphics.Color
 import android.os.Bundle
+import android.os.Handler
+import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,13 +22,16 @@ import javax.inject.Inject
 
 class HomeFragment : BaseFragment() {
 
-    // You want Dagger to provide an instance of ViewModelFactory with all it's subDependencies from the graph
+    // You want Dagger to provide an instance of ViewModelFactory with all it's subDependencies
+    // from the graph
     @Inject
     lateinit var viewModelFactory: ViewModelFactory<HomeViewModel>
     private val columns = 2
 
     lateinit var viewModel: HomeViewModel
     lateinit var binding: HomeFragmentBinding
+    lateinit var mBundleRecyclerViewState: Bundle
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,10 +54,15 @@ class HomeFragment : BaseFragment() {
             StaggeredGridLayoutManager(columns, StaggeredGridLayoutManager.VERTICAL)
         recyclerlayoutManager.gapStrategy =
             StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
+
+
         binding.recycler.apply {
             layoutManager = recyclerlayoutManager
             addOnScrollListener(
-                InfiniteScrollListener({ viewModel.searchEmptyList(limit = "10") }, recyclerlayoutManager)
+                InfiniteScrollListener(
+                    { viewModel.searchEmptyList(limit = "10") },
+                    recyclerlayoutManager
+                )
             )
         }
 
@@ -107,6 +116,29 @@ class HomeFragment : BaseFragment() {
         super.onResume()
         //Unhide toolbar when coming back
         hideToolbar(false)
+        restoreScrollPosition()
+    }
+
+    private fun restoreScrollPosition() {
+
+        if (this::mBundleRecyclerViewState.isInitialized) {
+            Logger.dt("Restored")
+
+            Handler().postDelayed({
+                val mListState =
+                    mBundleRecyclerViewState.getParcelable<Parcelable>("KEY_RECYCLER_STATE")
+                binding.recycler.layoutManager?.onRestoreInstanceState(mListState)
+            }, 100)
+        }
+    }
+
+
+    override fun onPause() {
+        super.onPause()
+        Logger.dt("Paused")
+        mBundleRecyclerViewState = Bundle()
+        val mListState = binding.recycler.layoutManager?.onSaveInstanceState()
+        mBundleRecyclerViewState.putParcelable("KEY_RECYCLER_STATE", mListState)
     }
 
     private fun moveToNext(photo: Photo) {
