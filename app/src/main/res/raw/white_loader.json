@@ -354,18 +354,6 @@
           "ix": 1,
           "mn": "ADBE Vector Group",
           "hd": false
-        },
-        {
-          "ty": "rd",
-          "nm": "Round Corners 1",
-          "r": {
-            "a": 0,
-            "k": 100,
-            "ix": 1
-          },
-          "ix": 2,
-          "mn": "ADBE Vector Filter - RC",
-          "hd": false
         }
       ],
       "ip": 0,
@@ -685,18 +673,6 @@
           "cix": 2,
           "ix": 1,
           "mn": "ADBE Vector Group",
-          "hd": false
-        },
-        {
-          "ty": "rd",
-          "nm": "Round Corners 1",
-          "r": {
-            "a": 0,
-            "k": 100,
-            "ix": 1
-          },
-          "ix": 2,
-          "mn": "ADBE Vector Filter - RC",
           "hd": false
         }
       ],
@@ -1018,18 +994,6 @@
           "ix": 1,
           "mn": "ADBE Vector Group",
           "hd": false
-        },
-        {
-          "ty": "rd",
-          "nm": "Round Corners 1",
-          "r": {
-            "a": 0,
-            "k": 100,
-            "ix": 1
-          },
-          "ix": 2,
-          "mn": "ADBE Vector Filter - RC",
-          "hd": false
         }
       ],
       "ip": 0,
@@ -1349,18 +1313,6 @@
           "cix": 2,
           "ix": 1,
           "mn": "ADBE Vector Group",
-          "hd": false
-        },
-        {
-          "ty": "rd",
-          "nm": "Round Corners 1",
-          "r": {
-            "a": 0,
-            "k": 100,
-            "ix": 1
-          },
-          "ix": 2,
-          "mn": "ADBE Vector Filter - RC",
           "hd": false
         }
       ],
@@ -1682,18 +1634,6 @@
           "ix": 1,
           "mn": "ADBE Vector Group",
           "hd": false
-        },
-        {
-          "ty": "rd",
-          "nm": "Round Corners 1",
-          "r": {
-            "a": 0,
-            "k": 100,
-            "ix": 1
-          },
-          "ix": 2,
-          "mn": "ADBE Vector Filter - RC",
-          "hd": false
         }
       ],
       "ip": 0,
@@ -2014,18 +1954,6 @@
           "ix": 1,
           "mn": "ADBE Vector Group",
           "hd": false
-        },
-        {
-          "ty": "rd",
-          "nm": "Round Corners 1",
-          "r": {
-            "a": 0,
-            "k": 100,
-            "ix": 1
-          },
-          "ix": 2,
-          "mn": "ADBE Vector Filter - RC",
-          "hd": false
         }
       ],
       "ip": 0,
@@ -2345,18 +2273,6 @@
           "cix": 2,
           "ix": 1,
           "mn": "ADBE Vector Group",
-          "hd": false
-        },
-        {
-          "ty": "rd",
-          "nm": "Round Corners 1",
-          "r": {
-            "a": 0,
-            "k": 100,
-            "ix": 1
-          },
-          "ix": 2,
-          "mn": "ADBE Vector Filter - RC",
           "hd": false
         }
       ],

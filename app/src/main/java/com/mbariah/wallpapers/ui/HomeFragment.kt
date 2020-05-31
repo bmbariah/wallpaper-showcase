@@ -1,7 +1,8 @@
 package com.mbariah.wallpapers.ui
 
-import android.graphics.Color
 import android.os.Bundle
+import android.os.Handler
+import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,18 +22,18 @@ import javax.inject.Inject
 
 class HomeFragment : BaseFragment() {
 
-    // You want Dagger to provide an instance of ViewModelFactory with all it's subDependencies from the graph
+    // You want Dagger to provide an instance of ViewModelFactory with all it's subDependencies
+    // from the graph
     @Inject
     lateinit var viewModelFactory: ViewModelFactory<HomeViewModel>
     private val columns = 2
 
     lateinit var viewModel: HomeViewModel
     lateinit var binding: HomeFragmentBinding
+    lateinit var mBundleRecyclerViewState: Bundle
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         //Inject first
         App.appComponent.inject(this)
         viewModel = ViewModelProvider(this, viewModelFactory).get(HomeViewModel::class.java)
@@ -47,12 +48,18 @@ class HomeFragment : BaseFragment() {
 
         //2 - VERTICAL COLUMNS
         val recyclerlayoutManager = StaggeredGridLayoutManager(columns, StaggeredGridLayoutManager.VERTICAL)
-        recyclerlayoutManager.gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
+        recyclerlayoutManager.gapStrategy =
+            StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
+
+
         binding.recycler.apply {
             layoutManager = recyclerlayoutManager
-            addOnScrollListener(InfiniteScrollListener({ viewModel.searchEmptyList("2", "10") }, recyclerlayoutManager))
+            addOnScrollListener(
+                InfiniteScrollListener({ viewModel.searchEmptyList(limit = "10") },
+                    recyclerlayoutManager
+                )
+            )
         }
-
 
         //Listener of recycler view click
         binding.recycler.adapter = ImagesAdapter(ImagesAdapter.ClickListener {
@@ -84,7 +91,7 @@ class HomeFragment : BaseFragment() {
                     if (query.isNotEmpty()) {
                         viewModel.searchList("1", "10", query)
                     } else if (query == "") {
-                        viewModel.searchEmptyList("1", "10")
+                        viewModel.searchEmptyList(limit = "10")
                     }
                 }
                 return false
@@ -104,9 +111,29 @@ class HomeFragment : BaseFragment() {
         super.onResume()
         //Unhide toolbar when coming back
         hideToolbar(false)
+        restoreScrollPosition()
+    }
 
-        activity?.window?.decorView?.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-        activity?.window?.statusBarColor = Color.WHITE
+    private fun restoreScrollPosition() {
+
+        if (this::mBundleRecyclerViewState.isInitialized) {
+            Logger.dt("Restored")
+
+            Handler().postDelayed({
+                val mListState =
+                    mBundleRecyclerViewState.getParcelable<Parcelable>("KEY_RECYCLER_STATE")
+                binding.recycler.layoutManager?.onRestoreInstanceState(mListState)
+            }, 100)
+        }
+    }
+
+
+    override fun onPause() {
+        super.onPause()
+        Logger.dt("Paused")
+        mBundleRecyclerViewState = Bundle()
+        val mListState = binding.recycler.layoutManager?.onSaveInstanceState()
+        mBundleRecyclerViewState.putParcelable("KEY_RECYCLER_STATE", mListState)
     }
 
     private fun moveToNext(photo: Photo) {

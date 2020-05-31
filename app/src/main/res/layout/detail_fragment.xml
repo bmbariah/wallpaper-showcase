@@ -14,8 +14,7 @@
         android:id="@+id/image_bg"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="0.8"
-        android:background="@color/white">
+        android:layout_weight="0.8">
 
         <com.github.chrisbanes.photoview.PhotoView
             android:id="@+id/img"

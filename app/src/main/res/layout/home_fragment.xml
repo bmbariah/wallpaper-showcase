@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="viewModel"
             type="com.mbariah.wallpapers.ui.HomeViewModel" />
@@ -21,7 +20,6 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/white"
         tools:context="com.mbariah.wallpapers.MainActivity">
 
         <androidx.appcompat.widget.SearchView
@@ -63,7 +61,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/recycler"
             app:lottie_autoPlay="true"
-            app:lottie_colorFilter="#D8000000"
+            app:lottie_colorFilter="@color/loaderColor"
             app:lottie_loop="true"
             app:lottie_rawRes="@raw/white_loader"
             app:visibleGone="@{isLoading}" />

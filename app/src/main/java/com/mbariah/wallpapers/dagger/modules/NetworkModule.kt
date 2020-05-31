@@ -1,6 +1,8 @@
 package com.mbariah.wallpapers.dagger.modules
 
 import com.mbariah.wallpapers.BuildConfig
+import com.mbariah.wallpapers.network.ImagesAPI
+import com.mbariah.wallpapers.network.ImagesSource
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
@@ -8,11 +10,11 @@ import dagger.Provides
 import dagger.Reusable
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
-import okhttp3.RequestBody
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.concurrent.TimeUnit
+import javax.inject.Singleton
 
 
 @Module
@@ -80,12 +82,21 @@ class NetworkModule() {
             .add(KotlinJsonAdapterFactory())
             .build()
 
-
         return Retrofit.Builder()
             .client(okHttpClient)
             .baseUrl(URL)
             .addConverterFactory(MoshiConverterFactory.create(moshi()))
             .build()
     }
+
+    @Provides
+    @Singleton
+    fun provideImagesApi(retrofit: Retrofit): ImagesAPI = retrofit.create(ImagesAPI::class.java)
+
+    @Provides
+    @Singleton
+    fun provideImagesSource(api: ImagesAPI): ImagesSource = ImagesSource(api)
+
+
 
 }
