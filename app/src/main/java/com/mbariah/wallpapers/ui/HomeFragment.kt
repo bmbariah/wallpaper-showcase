@@ -33,10 +33,7 @@ class HomeFragment : BaseFragment() {
     lateinit var mBundleRecyclerViewState: Bundle
 
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         //Inject first
         App.appComponent.inject(this)
         viewModel = ViewModelProvider(this, viewModelFactory).get(HomeViewModel::class.java)
@@ -50,8 +47,7 @@ class HomeFragment : BaseFragment() {
         setTitle("Wallpapers X")
 
         //2 - VERTICAL COLUMNS
-        val recyclerlayoutManager =
-            StaggeredGridLayoutManager(columns, StaggeredGridLayoutManager.VERTICAL)
+        val recyclerlayoutManager = StaggeredGridLayoutManager(columns, StaggeredGridLayoutManager.VERTICAL)
         recyclerlayoutManager.gapStrategy =
             StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
 
@@ -59,8 +55,7 @@ class HomeFragment : BaseFragment() {
         binding.recycler.apply {
             layoutManager = recyclerlayoutManager
             addOnScrollListener(
-                InfiniteScrollListener(
-                    { viewModel.searchEmptyList(limit = "10") },
+                InfiniteScrollListener({ viewModel.searchEmptyList(limit = "10") },
                     recyclerlayoutManager
                 )
             )

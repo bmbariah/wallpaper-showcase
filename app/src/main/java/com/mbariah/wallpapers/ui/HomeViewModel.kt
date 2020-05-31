@@ -38,6 +38,7 @@ class HomeViewModel @Inject constructor(private val imagesSource: ImagesSource) 
     fun searchEmptyList(limit: String) {
         viewModelScope.launch {
             try {
+
                 _isLoading.value = true
                 val results = imagesSource.getImages(page.toString(), limit)
                 Logger.dt("Fetched from page $page")
