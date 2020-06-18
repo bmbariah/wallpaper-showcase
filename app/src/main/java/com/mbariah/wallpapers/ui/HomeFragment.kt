@@ -53,11 +53,7 @@ class HomeFragment : BaseFragment() {
 
         binding.recycler.apply {
             layoutManager = recyclerlayoutManager
-            addOnScrollListener(
-                InfiniteScrollListener({ viewModel.searchEmptyList(limit = "10") },
-                    recyclerlayoutManager
-                )
-            )
+            addOnScrollListener(InfiniteScrollListener({ viewModel.searchEmptyList(limit = "10") }, recyclerlayoutManager))
         }
 
         //Listener of recycler view click

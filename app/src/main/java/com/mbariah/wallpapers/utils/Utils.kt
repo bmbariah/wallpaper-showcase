@@ -26,7 +26,7 @@ class Utils {
                 .networkPolicy(NetworkPolicy.OFFLINE)
                 .into(into, object : Callback {
                     override fun onSuccess() {
-                        Log.w("Picasso", "$url: Image loaded from cache")
+                        //Log.w("Picasso", "$url: Image loaded from cache")
                     }
 
                     override fun onError(e: Exception) {

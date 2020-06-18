@@ -31,27 +31,25 @@ class HomeViewModel @Inject constructor(private val imagesSource: ImagesSource) 
     private var page: Int = 1
 
     init {
-        this.errorListener = View.OnClickListener { this.searchEmptyList(limit = "10") }
         searchEmptyList(limit = "10")
+        this.errorListener = View.OnClickListener { this.searchEmptyList(limit = "10") }
     }
 
     fun searchEmptyList(limit: String) {
         viewModelScope.launch {
             try {
-
                 _isLoading.value = true
                 val results = imagesSource.getImages(page.toString(), limit)
                 Logger.dt("Fetched from page $page")
-
-                page = results.photos?.page?.plus(1) ?: 1
+                page += 1
 
                 //TODO() Find a better way to do this
                 if (_imagesList.value == null) {
-                    //"New Batch"
-                    _imagesList.value = results.photos?.photo?.toMutableList()
+                    //New Batch
+                    _imagesList.value = results.toMutableList()
                 } else {
                     //Append to existing
-                    results.photos?.photo?.let { _imagesList.value!!.addAll(it) }
+                    _imagesList.value!!.addAll(results)
                 }
 
                 _isLoading.value = false

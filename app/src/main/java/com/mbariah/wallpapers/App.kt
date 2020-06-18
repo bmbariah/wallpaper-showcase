@@ -8,15 +8,14 @@ import com.squareup.picasso.Picasso
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
-class App : Application(){
+class App : Application() {
 
-    //dagger declaration
     override fun onCreate() {
         super.onCreate()
 
         val builder = Picasso.Builder(this)
             .memoryCache(LruCache(getBytesForMemCache(20)))
-            //.requestTransformer(requestTransformer)
+        //.requestTransformer(requestTransformer)
 
         //One Picasso instance to share app lifecycle
         Picasso.setSingletonInstance(builder.build())

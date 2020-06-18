@@ -1,22 +1,16 @@
 package com.mbariah.wallpapers.network
 
-import com.mbariah.wallpapers.models.Results
-import retrofit2.Call
+import com.mbariah.wallpapers.models.ImageResults
 import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface ImagesAPI {
 
-    @GET("rest")
+    @GET("photos")
     suspend fun getImages(
         @Query("page") page: String = "1",
-        @Query("per_page") perPage: String,
-        @Query("method") method: String = "flickr.groups.pools.getPhotos",
-        //@Query("text") query: String = "android wallpapers"
-        //@Query("group_id") tags: String = "14609814@N24"
-        @Query("group_id") tags: String = "3411915@N22"
-
-    ): Results
+        @Query("per_page") perPage: String
+    ): ImageResults
 
     @GET("rest")
     suspend fun searchImages(
@@ -24,7 +18,7 @@ interface ImagesAPI {
         @Query("per_page") perPage: String,
         @Query("text") query: String,
         @Query("method") method: String = "flickr.photos.search"
-    ): Results
+    ): ImageResults
 
 
 }

@@ -13,9 +13,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.palette.graphics.Palette
 import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
 import com.mbariah.wallpapers.R
-import com.mbariah.wallpapers.utils.Utils
 import com.squareup.picasso.Callback
-import com.squareup.picasso.NetworkPolicy
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.detail_fragment.*
 import kotlinx.android.synthetic.main.image_bar.*
@@ -41,10 +39,10 @@ class DetailFragment : BaseFragment() {
 
         hideToolbar(true)
 
-        title.text = photo?.title
-        author.text = photo?.ownername
+        title.text = photo?.description
+        author.text = photo?.user?.name ?: "Wall X"
 
-        val buddyIcon = "https://farm${photo?.iconfarm}.staticflickr.com/${photo?.iconserver}/buddyicons/${photo?.owner}.jpg"
+        val buddyIcon = photo?.user?.profileImage?.large
 
         Picasso.get()
             .load(buddyIcon)
@@ -53,12 +51,12 @@ class DetailFragment : BaseFragment() {
             .into(buddyico)
 
         Picasso.get()
-            .load(photo?.urlL) // thumbnail url goes here
+            .load(photo?.urls?.small) // thumbnail url goes here
             .into(img, object : Callback {
                 override fun onSuccess() {
                     Log.w("Picasso", "Inner Image loaded from cache")
 
-                    photo?.urlO?.let {
+                    photo?.urls?.regular?.let {
                         Picasso.get()
                             .load(it)
                             .placeholder(img.drawable)

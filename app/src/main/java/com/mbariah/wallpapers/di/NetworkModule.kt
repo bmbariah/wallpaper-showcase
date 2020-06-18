@@ -23,40 +23,14 @@ import javax.inject.Singleton
 object NetworkModule {
 
     private val API_KEY = BuildConfig.API_KEY
-    private val URL = "https://api.flickr.com/services/"
+    private val URL = "https://api.unsplash.com/"
 
     @Provides
     internal fun provideOkHttpClient(): OkHttpClient {
 
         val logging = HttpLoggingInterceptor()
-        logging.setLevel(HttpLoggingInterceptor.Level.HEADERS)
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY)
 
-        val interceptor = Interceptor {
-            val request = it.request()
-            it.proceed(
-                when (request.method) {
-                    "GET" -> {
-                        val url = request.url
-                        request.newBuilder()
-                            .url(
-                                url.newBuilder()
-                                    .addQueryParameter("api_key", API_KEY)
-                                    .addQueryParameter("format", "json")
-                                    .addQueryParameter("nojsoncallback", "1")
-                                    .addQueryParameter(
-                                        "extras",
-                                        "description, date_upload, date_taken, owner_name, icon_server, original_format, tags, machine_tags, o_dims, views, media, url_c, url_l, url_o"
-                                    )
-                                    .build()
-                            )
-                            .build()
-                    }
-                    else -> request
-                }
-            )
-        }
-
-/*
         val interceptor = Interceptor {
             val url = it.request()
                 .url
@@ -64,12 +38,11 @@ object NetworkModule {
                 .build()
             val request = it.request()
                 .newBuilder()
-                .addHeader("X-API-Key", API_KEY)
+                .addHeader("Authorization", API_KEY)
                 .url(url)
                 .build()
             return@Interceptor it.proceed(request)
         }
-*/
 
         return OkHttpClient.Builder()
             .connectTimeout(30, TimeUnit.SECONDS)
@@ -77,7 +50,7 @@ object NetworkModule {
             .writeTimeout(60, TimeUnit.SECONDS)
             .retryOnConnectionFailure(false)
             .addInterceptor(interceptor)
-            //.addInterceptor(logging)
+            .addInterceptor(logging)
             .build()
     }
 
