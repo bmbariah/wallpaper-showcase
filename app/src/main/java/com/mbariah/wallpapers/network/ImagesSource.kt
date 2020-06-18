@@ -5,20 +5,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class ImagesSource {
-
-    private val api: ImagesAPI
-
-    @Inject
-    constructor(api: ImagesAPI) {
-        this.api = api
-    }
+class ImagesSource @Inject constructor(private val api: ImagesAPI) {
 
     /*
       - Run in Dispatchers.IO thread for network tasks
       - Perform blocking network IO
     */
-
     suspend fun getImages(page: String, limit: String): Results {
         return withContext(Dispatchers.IO) {
             api.getImages(page, limit)

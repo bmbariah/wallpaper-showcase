@@ -11,21 +11,21 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.mbariah.wallpapers.App
 import com.mbariah.wallpapers.ViewModelFactory
 import com.mbariah.wallpapers.databinding.HomeFragmentBinding
 import com.mbariah.wallpapers.models.Photo
 import com.mbariah.wallpapers.utils.InfiniteScrollListener
 import com.mbariah.wallpapers.utils.Logger
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 
+@AndroidEntryPoint
 class HomeFragment : BaseFragment() {
 
     // You want Dagger to provide an instance of ViewModelFactory with all it's subDependencies
     // from the graph
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory<HomeViewModel>
+    @Inject lateinit var viewModelFactory: ViewModelFactory<HomeViewModel>
     private val columns = 2
 
     lateinit var viewModel: HomeViewModel
@@ -35,7 +35,6 @@ class HomeFragment : BaseFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         //Inject first
-        App.appComponent.inject(this)
         viewModel = ViewModelProvider(this, viewModelFactory).get(HomeViewModel::class.java)
         binding = HomeFragmentBinding.inflate(inflater)
         return binding.root
